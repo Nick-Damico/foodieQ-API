@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root 'static#welcome'
+
   namespace :api do
     namespace :v1 do
       resources :recipes
