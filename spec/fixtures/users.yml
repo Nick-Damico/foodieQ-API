@@ -1,0 +1,11 @@
+nicko:
+  email: nick@valid.com
+  username: Nicko
+  password: validPassword
+  password_confirmation: validPassword
+
+invalidUser:
+  email: nick.invalid.com
+  username: invalidUser
+  password: validPassword
+  password_confirmation: validPassword
