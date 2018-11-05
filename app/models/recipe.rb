@@ -4,12 +4,13 @@ class Recipe < ApplicationRecord
   validates :description, presence: true,
                           length: { maximum: 1500 }
 
-  before_validation :capitalize_description
+  before_validation :format_description_title
 
   private
-  def capitalize_description
-    if !self.description.empty?
-      self.description = self.description.capitalize
+  def format_description_title
+    if !self.description.empty? && !self.title.empty?
+      self.description = self.description.strip.capitalize
+      self.title = self.title.strip.capitalize
     end
   end
 end
