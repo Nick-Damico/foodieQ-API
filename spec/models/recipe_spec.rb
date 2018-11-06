@@ -12,13 +12,21 @@ RSpec.describe Recipe, type: :model do
       expect(@recipe).to be_valid
     end
 
-    describe 'has_many' do      
+    describe 'has_many' do
       it 'has_many ingredients' do
         @recipe.ingredients << @ingredient_one
         @recipe.ingredients << @ingredient_two
 
         expect(@recipe.ingredients.length).to eq(2)
         expect(@recipe.ingredients.first).to eq(@ingredient_one)
+      end
+
+      it 'has_many steps' do
+        recipe = create(:recipe)
+        recipe.steps.create!(description: 'Add 1 Cup of chicken broth')
+        recipe.steps.create!(description: 'Add vegatable bouillion')
+
+        expect(recipe.steps.length).to eq(2)
       end
     end
 
