@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Ingredient, type: :model do
   before(:all) do
       @ingredient = build(:ingredient)
+      @recipe     = build(:recipe)
+      @ingredient.recipe = @recipe
   end
 
   it "can be created" do
@@ -29,5 +31,16 @@ RSpec.describe Ingredient, type: :model do
     ingredient = build(:ingredient)
     ingredient.name = Faker::Lorem.sentence(201)
     expect(ingredient).to_not be_valid
+  end
+
+  describe "belongs_to" do
+    it 'belongs_to a Recipe' do
+      recipe = build(:recipe)
+      ingredient = build(:chicken_ingredient)
+      recipe.ingredients << ingredient
+      recipe.save
+
+      expect(ingredient.recipe).to eq(recipe)
+    end
   end
 end
