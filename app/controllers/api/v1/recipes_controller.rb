@@ -1,12 +1,18 @@
 module Api::V1
   class RecipesController < ApplicationController
     before_action :authenticate_user
-    before_action :set_recipe, only: [:new, :show, :update, :destroy]
+    before_action :set_recipe, only: [:index, :show]
 
     def index
       @recipes = Recipe.all
 
       render json: @recipes
+    end
+
+    def show
+      if @recipe
+        render json: @recipe, status: :sucessful
+      end
     end
 
     private
