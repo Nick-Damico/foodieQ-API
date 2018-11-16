@@ -3,9 +3,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      post 'user_token' => 'user_token#create'
-      post '/signup' => 'users#new'
-      post '/login' => 'sessions#new'
+      post '/signup' => 'users#create'
+      post '/login' => 'user_token#create'
 
       resources :users
       resources :recipes
