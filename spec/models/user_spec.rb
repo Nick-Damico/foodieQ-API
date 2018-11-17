@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   before do
+    DatabaseCleaner.clean
     @user = create(:valid_user)
   end
 
@@ -22,8 +23,8 @@ RSpec.describe User, type: :model do
   end
 
   it "it defaults to an admin value of false" do
-    user = User.new({
-      email: 'valid@example.com',
+    user = User.create({
+      email: 'user@example.com',
       password: 'validUser'
       })
 
@@ -31,5 +32,12 @@ RSpec.describe User, type: :model do
     expect(user.admin).to eq(false)
   end
 
-  it "is invalid with a duplicate email address"
+  it "is invalid with a duplicate email address" do
+    user_1 = User.create({email: 'user@example.com', password: 'validPass'})
+    user_2 = User.new({email: 'user@example.com', password: 'validPassToo'})
+
+    expect(user_2).to_not be_valid
+  end
+
+  it "is invalid without a properly formatted email address"   
 end
