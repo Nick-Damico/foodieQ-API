@@ -5,6 +5,6 @@ FactoryBot.define do
       email { 'valid@example.com' }
       password { 'validTest' }
       admin { false }
-    end
+    end  
   end
 end
