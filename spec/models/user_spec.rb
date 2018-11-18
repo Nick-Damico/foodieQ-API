@@ -39,5 +39,24 @@ RSpec.describe User, type: :model do
     expect(user_2).to_not be_valid
   end
 
-  it "is invalid without a properly formatted email address"   
+  it 'is invalid without a properly formatted email address' do
+    emails = %w[user@example,com user_at_foo.org user.name@example.
+                foo@bar_baz.com foo@bar+baz.com]
+
+    emails.each do |email|
+      @user.email = email
+
+      expect(@user).to_not be_valid
+    end
+  end
+
+  it "is valid with a properly formatted email address" do
+    emails = %w[user@example.com foo@Bar.com user_one@oneUser.com best.place@bestplace.com]
+
+    emails.each do |email|
+      @user.email = email
+
+      expect(@user).to be_valid
+    end
+  end
 end
