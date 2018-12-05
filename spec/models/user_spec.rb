@@ -22,15 +22,7 @@ RSpec.describe User, type: :model do
     expect(@user).to_not be_valid
   end
 
-  it "it defaults to an admin value of false" do
-    user = User.create({
-      email: 'user@example.com',
-      password: 'validUser'
-      })
-
-    expect(user).to be_valid
-    expect(user.admin).to eq(false)
-  end
+  it "it defaults to an admin value of false" 
 
   it "is invalid with a duplicate email address" do
     user_1 = User.create({email: 'user@example.com', password: 'validPass'})

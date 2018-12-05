@@ -4,7 +4,7 @@ FactoryBot.define do
     factory :valid_user, parent: :user do
       email { 'valid@example.com' }
       password { 'validTest' }
-      admin { false }
-    end  
+      password_confirmation { 'validTest'}
+    end
   end
 end
