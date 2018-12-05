@@ -12,9 +12,8 @@ gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use ActiveModel has_secure_password
-gem 'bcrypt', '~> 3.1.7'
-gem 'knock', '~> 2.1', '>= 2.1.1'
 gem 'rack-cors'
+gem 'devise', '~> 4.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
