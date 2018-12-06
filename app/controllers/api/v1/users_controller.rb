@@ -10,8 +10,10 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users/1
   def show
-    if @user = User.find_by(params[:id])
+    if @user
       render json: @user
+    else
+      render json: {errors: ["Resource not found"]}, status: :not_found
     end
   end
 
@@ -42,7 +44,7 @@ class Api::V1::UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find_by(id: params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
