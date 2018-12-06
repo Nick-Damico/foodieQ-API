@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
@@ -8,11 +6,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '6500558a8cf973a73808f351bac6b256a68b56da662668d7cde1b3bde5e8901b81c275ea5a9ec125b3f8b11b849a2bd35190ef2cf47a21bb306b4682a5a395ef'
-
-  # ==> Controller configuration
-  # Configure the parent class to the devise controllers.
-  # config.parent_controller = 'DeviseController'
+  # config.secret_key = '4d6598c43488b42d95f1f0f3182c422fcae46fd5960d99e512a10318ebf3ae361ba68b90624687125219c05bd8e9f3d8d70a2168c3eb5c1d2a5c6b93cc73da10'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -114,12 +108,9 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 11
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '1ff6432d2abec3ff7a0e994f9756dbd4666e6f6633e2ddc568a1ee534adedcc10619ff5a50fe4bbae816f01088dea91c1064be5d703186f057e141ab0b2f31c5'
+  # config.pepper = '60fb25541764131ae646fa0b77b9244cec755ed2d89ceaff6ea739352fdbdc83ff47e37bee6a92585637825f2e38698f9cf5049e8f5fe16e285a70da85d1318b'
 
-  # Send a notification to the original email when the user's email is changed.
-  # config.send_email_changed_notification = false
-
-  # Send a notification email when the user's password is changed.
+  # Send a notification email when the user's password is changed
   # config.send_password_change_notification = false
 
   # ==> Configuration for :confirmable
@@ -263,9 +254,9 @@ Devise.setup do |config|
   # change the failure app, you can configure them inside the config.warden block.
   #
   config.warden do |manager|
-    # manager.intercept_401 = false
+  #   manager.intercept_401 = false
     manager.strategies.add :jwt, Devise::Strategies::JWT
-    manager.default_strategies(scope: :user).unshift :some_external_strategy
+    manager.default_strategies(scope: :user).unshift :jwt
   end
 
   # ==> Mountable engine configurations
@@ -281,13 +272,6 @@ Devise.setup do |config|
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
-
-  # ==> Turbolinks configuration
-  # If your app is using Turbolinks, Turbolinks::Controller needs to be included to make redirection work correctly:
-  #
-  # ActiveSupport.on_load(:devise_failure_app) do
-  #   include Turbolinks::Controller
-  # end
 end
 
 module Devise
@@ -298,11 +282,13 @@ module Devise
       end
 
       def authenticate!
-        token = request.headers.fetch("Authorization", '').split(' ').last
+        token   = request.headers.fetch("Authorization", "").split(" ").last
         payload = JsonWebToken.decode(token)
         success! User.find(payload["sub"])
-      rescue
-        fail!
+      rescue ::JWT::ExpiredSignature
+        fail! "Auth token has expired"
+      rescue ::JWT::DecodeError
+        fail! "Auth token is invalid"
       end
     end
   end
