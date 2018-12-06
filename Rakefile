@@ -7,7 +7,7 @@ Rails.application.load_tasks
 
 namespace :server do
   desc "start development server"
-  task :dev do
+  task :start do
     sh 'rails s -p 3001'
   end
 end
