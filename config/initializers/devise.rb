@@ -9,7 +9,7 @@ Devise.setup do |config|
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
   # config.secret_key = '6500558a8cf973a73808f351bac6b256a68b56da662668d7cde1b3bde5e8901b81c275ea5a9ec125b3f8b11b849a2bd35190ef2cf47a21bb306b4682a5a395ef'
-  
+
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
   # config.parent_controller = 'DeviseController'
@@ -262,10 +262,11 @@ Devise.setup do |config|
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
   #
-  # config.warden do |manager|
-  #   manager.intercept_401 = false
-  #   manager.default_strategies(scope: :user).unshift :some_external_strategy
-  # end
+  config.warden do |manager|
+    # manager.intercept_401 = false
+    manager.strategies.add :jwt, Devise::Strategies::JWT
+    manager.default_strategies(scope: :user).unshift :some_external_strategy
+  end
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine
@@ -287,4 +288,23 @@ Devise.setup do |config|
   # ActiveSupport.on_load(:devise_failure_app) do
   #   include Turbolinks::Controller
   # end
+end
+
+module Devise
+  module Strategies
+    class JWT < Base
+      def valid?
+        request.headers["Authorization"].present?
+      end
+
+      def authenticate!
+        binding.pry
+        token = request.headers.fetch("Authorization", '').split(' ').last
+        payload = JsonWebToken.decode(token)
+        success! User.find(payload["sub"])
+      rescue
+        fail!
+      end
+    end
+  end
 end

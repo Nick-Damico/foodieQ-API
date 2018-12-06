@@ -6,8 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-# Recipe.create!(title: 'Orange Cream Cake', description: 'Everyone will enjoy the old-fashioned flavor of this super-moist cake topped with a soft light frosting. "This dessert reminds me of the frozen Creamsicles I enjoyed as a child," remarks Star Pooley of Paradise, California.')
-# Recipe.create!(title: 'Orange Chicken with Brussels Sprouts', description: 'This 30-minute recipe for orange chicken atop brussel sprouts is easy to make and so delicious! It’s an easy dinner recipe that your whole family will love.')
+Recipe.create!(title: 'Orange Cream Cake', description: 'Everyone will enjoy the old-fashioned flavor of this super-moist cake topped with a soft light frosting. "This dessert reminds me of the frozen Creamsicles I enjoyed as a child," remarks Star Pooley of Paradise, California.')
+Recipe.create!(title: 'Orange Chicken with Brussels Sprouts', description: 'This 30-minute recipe for orange chicken atop brussel sprouts is easy to make and so delicious! It’s an easy dinner recipe that your whole family will love.')
 
 admin = User.new
 admin.email = 'admin@foodieq.com'
