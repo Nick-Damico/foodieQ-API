@@ -13,6 +13,7 @@ class Recipe < ApplicationRecord
   before_validation :format_description_title
 
   private
+  # Validates, Formats description before presisting to db.
   def format_description_title
     if !self.description.empty? && !self.title.empty?
       self.description = self.description.strip.capitalize
