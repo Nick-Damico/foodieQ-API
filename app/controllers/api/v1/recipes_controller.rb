@@ -3,8 +3,8 @@ class Api::V1::RecipesController < ApplicationController
   before_action :set_recipe, only: [:index, :show]
 
   def index
-    @recipes = Recipe.all
-    render json: @recipes
+    recipes = Recipe.all
+    render json: recipes
   end
 
   def show
