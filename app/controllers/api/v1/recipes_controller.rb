@@ -9,7 +9,7 @@ class Api::V1::RecipesController < ApplicationController
 
   def show
     if @recipe
-      render json: @recipe, status: :sucessful
+      render json: @recipe, include: ['ingredients'], status: :sucessful
     end
   end
 
