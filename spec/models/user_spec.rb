@@ -22,7 +22,7 @@ RSpec.describe User, type: :model do
     expect(@user).to_not be_valid
   end
 
-  it "it defaults to an admin value of false" 
+  it "it defaults to an admin value of false"
 
   it "is invalid with a duplicate email address" do
     user_1 = User.create({email: 'user@example.com', password: 'validPass'})
