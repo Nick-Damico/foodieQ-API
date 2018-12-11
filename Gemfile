@@ -14,7 +14,8 @@ gem 'puma', '~> 3.7'
 # Use ActiveModel has_secure_password
 gem 'rack-cors'
 gem 'devise', '~> 4.5'
-gem 'jwt'
+gem 'jwt', '~> 2.1'
+gem 'active_model_serializers', '~> 0.10.8'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
