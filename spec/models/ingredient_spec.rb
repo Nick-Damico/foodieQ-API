@@ -23,7 +23,7 @@ RSpec.describe Ingredient, type: :model do
     expect(@ingredient).to be_valid
   end
 
-  it 'is invalid with name length less then 8' do
+  it 'is invalid with name length less then 4' do
     ingredient = build(:ingredient)
     ingredient.name = 'cup tea'
 
