@@ -3,4 +3,6 @@ class RecipeSerializer < ActiveModel::Serializer
 
   has_many :ingredients
   has_many :steps
+  
+  link(:self) { api_v1_recipe_url(object.id) }
 end
