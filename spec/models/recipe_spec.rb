@@ -82,5 +82,18 @@ RSpec.describe Recipe, type: :model do
     it 'responds to #user method' do
       expect(@recipe).to respond_to(:user)
     end
+
+    it 'creates a User singular association method #create_*' do
+      recipe = build(:recipe)
+      recipe.create_user(email: 'test@example.com', password: 'vaildpass123',
+                         password_confirmation: 'validpass123')
+      recipe.save
+
+      expect(recipe.user.email).to eq('test@example.com')
+    end
+
+    it 'belongs to a User' do
+      expect(@recipe.user).to eq (@user)
+    end
   end
 end
