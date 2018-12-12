@@ -55,5 +55,14 @@ RSpec.describe User, type: :model do
       expect(@user).to respond_to(:recipes)
       expect(@user.recipes).to eq([])
     end
+
+    it 'has recipes collection' do
+      @recipe = Recipe.create(title: "Mom's chicken noodle soup",
+                           description: "Mom's delicious homemade chicken noodle soup with celery and carrots.")
+      @user.recipes << @recipe
+      expect(@user.recipes.length).to eq(1)
+      expect(@user.recipes).to include(@recipe)
+    end
+    
   end
 end
