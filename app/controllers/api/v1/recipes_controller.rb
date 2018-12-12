@@ -1,6 +1,6 @@
 class Api::V1::RecipesController < ApplicationController
   # before_action :authenticate_user!
-  before_action :set_recipe, only: [:index, :show]
+  before_action :set_recipe, only: [:show]
 
   def index
     recipes = Recipe.all
@@ -8,9 +8,7 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def show
-    if @recipe
-      render json: @recipe, include: ['ingredients', 'steps'], status: :sucessful
-    end
+    render json: @recipe, include: ['ingredients', 'steps'], status: :sucessful
   end
 
   def create
@@ -33,5 +31,12 @@ class Api::V1::RecipesController < ApplicationController
 
     def set_recipe
       @recipe = Recipe.find_by(id: params[:id])
+      if @recipe.nil?
+        render json: {errors: [{
+            status: '404',
+            title: "Record not found",
+            detail: "Record not found with id: #{params[:id]}"
+          }]}, status: :not_found
+      end
     end
 end
