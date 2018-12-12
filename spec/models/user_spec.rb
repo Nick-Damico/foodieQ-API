@@ -10,21 +10,21 @@ RSpec.describe User, type: :model do
     expect(@user).to be_valid
   end
 
-  it "is invalid without an email" do
+  it 'is invalid without an email' do
     @user.email = nil
 
     expect(@user).to be_invalid
   end
 
-  it "is invalid without a password" do
+  it 'is invalid without a password' do
     @user.password = nil
 
     expect(@user).to_not be_valid
   end
 
-  it "is invalid with a duplicate email address" do
-    user_1 = User.create({email: 'user@example.com', password: 'validPass'})
-    user_2 = User.new({email: 'user@example.com', password: 'validPassToo'})
+  it 'is invalid with a duplicate email address' do
+    user_1 = User.create(email: 'user@example.com', password: 'validPass')
+    user_2 = User.new(email: 'user@example.com', password: 'validPassToo')
 
     expect(user_2).to_not be_valid
   end
@@ -40,7 +40,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  it "is valid with a properly formatted email address" do
+  it 'is valid with a properly formatted email address' do
     emails = %w[user@example.com foo@Bar.com user_one@oneUser.com best.place@bestplace.com]
 
     emails.each do |email|
@@ -58,11 +58,10 @@ RSpec.describe User, type: :model do
 
     it 'has recipes collection' do
       @recipe = Recipe.create(title: "Mom's chicken noodle soup",
-                           description: "Mom's delicious homemade chicken noodle soup with celery and carrots.")
+                              description: "Mom's delicious homemade chicken noodle soup with celery and carrots.")
       @user.recipes << @recipe
       expect(@user.recipes.length).to eq(1)
       expect(@user.recipes).to include(@recipe)
     end
-    
   end
 end
