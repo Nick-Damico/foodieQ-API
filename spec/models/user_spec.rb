@@ -22,8 +22,6 @@ RSpec.describe User, type: :model do
     expect(@user).to_not be_valid
   end
 
-  it "it defaults to an admin value of false"
-
   it "is invalid with a duplicate email address" do
     user_1 = User.create({email: 'user@example.com', password: 'validPass'})
     user_2 = User.new({email: 'user@example.com', password: 'validPassToo'})
@@ -49,6 +47,13 @@ RSpec.describe User, type: :model do
       @user.email = email
 
       expect(@user).to be_valid
+    end
+  end
+
+  describe 'has_many recipes' do
+    it 'has a recipes collection method :recipes' do
+      expect(@user).to respond_to(:recipes)
+      expect(@user.recipes).to eq([])
     end
   end
 end
