@@ -52,4 +52,15 @@ RSpec.describe "RecipesController", :type => :request do
       expect(json_response["attributes"]["title"]).to eq("Quick and easy pad thai")
     end
   end
+
+  describe 'POST :create' do
+    context 'with valid attributes' do
+      it 'creates a new recipe' do
+        expect{
+          post api_v1_recipes_url, :params => {recipe: {title: 'Mushroom Chicken',
+                                               description: 'Best Mushroom chicken out there'}}
+         }.to change(Recipe,:count).by(1)
+      end
+    end
+  end
 end
