@@ -9,7 +9,7 @@ RSpec.describe "RecipesController", :type => :request do
     @user.recipes.push(@recipe, @recipe_2)
     @user.save
   end
-  describe 'GET /recipes' do
+  describe 'GET :index' do
 
     it 'returns a HTTP status' do
       get api_v1_recipes_url
@@ -31,7 +31,7 @@ RSpec.describe "RecipesController", :type => :request do
     end
   end
 
-  describe 'GET /recipes/:id' do
+  describe 'GET :show' do
     it 'returns an HTTP status of 200, on success' do
       get api_v1_recipe_url(@recipe)
 
@@ -42,6 +42,14 @@ RSpec.describe "RecipesController", :type => :request do
       get api_v1_recipe_url(10)
 
       expect(response).to have_http_status(404)
+    end
+
+    it 'retrieves a resource of recipe' do
+      get api_v1_recipe_url(@recipe)
+      json_response = JSON.parse(response.body)["data"]
+
+      expect(json_response["id"]).to eq("1")
+      expect(json_response["attributes"]["title"]).to eq("Quick and easy pad thai")
     end
   end
 end
