@@ -60,6 +60,14 @@ RSpec.describe "RecipesController", :type => :request do
           post api_v1_recipes_url, :params => {recipe: {title: 'Mushroom Chicken',
                                                description: 'Best Mushroom chicken out there'}}
          }.to change(Recipe,:count).by(1)
+       expect(response.status).to eq(201)
+      end
+
+      it 'returns error if invalid attributes' do
+        expect{
+          post api_v1_recipes_url, :params => {recipe: {name: 'Mushroom Chicken'}}
+        }.to_not change(Recipe, :count)
+        expect(response.status).to eq(400)
       end
     end
   end
