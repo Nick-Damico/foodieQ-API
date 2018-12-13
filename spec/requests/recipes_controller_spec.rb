@@ -25,13 +25,10 @@ RSpec.describe "RecipesController", :type => :request do
     end
 
     it 'will retrieve records' do
-      get '/api/v1/recipes/1'
+      get api_v1_recipes_url
 
-      expect(response.body).to eq({
-        "data" => {
-          "id" => "1"
-        }
-        })
+      expect(JSON.parse(response.body)["data"].first["id"]).to eq("1")
+      expect(JSON.parse(response.body)["data"].first["attributes"]["title"]).to eq("Quick and easy pad thai")
     end
   end
 end
