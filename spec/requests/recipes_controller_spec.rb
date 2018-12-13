@@ -10,9 +10,8 @@ RSpec.describe "RecipesController", :type => :request do
     @user.save
   end
   describe 'GET /recipes' do
-    # subject { get api_v1_recipes_url }
-    # it { is_expected.to have_http_status(:ok) }
-    it 'will retrieve records' do
+
+    it 'returns a HTTP status' do
       get api_v1_recipes_url
 
       expect(response).to have_http_status(200)
@@ -29,6 +28,20 @@ RSpec.describe "RecipesController", :type => :request do
 
       expect(JSON.parse(response.body)["data"].first["id"]).to eq("1")
       expect(JSON.parse(response.body)["data"].first["attributes"]["title"]).to eq("Quick and easy pad thai")
+    end
+  end
+
+  describe 'GET /recipes/:id' do
+    it 'returns an HTTP status of 200, on success' do
+      get api_v1_recipe_url(@recipe)
+
+      expect(response).to have_http_status(200)
+    end
+
+    it 'returns an HTTP status of 404, on failure' do
+      get api_v1_recipe_url(10)
+
+      expect(response).to have_http_status(404)
     end
   end
 end
