@@ -8,7 +8,7 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def show
-    render json: @recipe, include: ['ingredients', 'steps'], status: :sucessful
+    render json: @recipe, include: ['ingredients', 'steps'], status: :ok
   end
 
   def create
