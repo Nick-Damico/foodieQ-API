@@ -4,7 +4,7 @@ class Api::V1::RecipesController < ApplicationController
 
   def index
     recipes = Recipe.all
-    render json: recipes, include: ['ingredients', 'steps'], status: :sucessful
+    render json: recipes, include: ['ingredients', 'steps'], status: :ok
   end
 
   def show
