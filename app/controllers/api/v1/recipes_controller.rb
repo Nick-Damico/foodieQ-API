@@ -1,6 +1,7 @@
 class Api::V1::RecipesController < ApplicationController
   # before_action :authenticate_user!
-  before_action :set_recipe, only: [:show, :update]
+  before_action :set_recipe, only: [:show, :update, :destroy]
+  before_action :correct_user, only: [:update, :destroy]
 
   def index
     recipes = Recipe.all
@@ -23,11 +24,16 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def update
-    if @recipe.update(recipe_params)
+    if @recipe.update_attributes(recipe_params)
       render json: @recipe, include: ['ingredients', 'steps'], status: :ok
     else
       render json: {errors: @recipe.errors.full_messages}, status: :bad_request
     end
+  end
+
+  def destroy
+    @recipe.destroy
+    render json: {}, status: :no_content
   end
 
   private
@@ -60,4 +66,15 @@ class Api::V1::RecipesController < ApplicationController
         recipe = Recipe.new(recipe_params)
       end
     end
+
+    # Confirms the correct user.
+   def correct_user
+     if params[:user_id].present?
+       @user = User.find_by(id: params[:user_id])
+       
+       if @user != current_user && !@user.recipes.include?(@recipe)
+         render json: {errors: ["User not authorized to modify recipe that doesn't belong to them"]}, status: :bad_request
+       end
+     end
+   end
 end
