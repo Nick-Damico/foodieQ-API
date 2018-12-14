@@ -69,6 +69,13 @@ RSpec.describe "RecipesController", :type => :request do
         }.to_not change(Recipe, :count)
         expect(response.status).to eq(400)
       end
+
+      it 'creates a user associated recipe' do
+        expect{
+          post api_v1_user_recipes_url(@user), :params => {recipe: {title: 'Mushroom chicken',
+                                                           description: 'Best mushroom chicken'}}
+        }.to change(@user.recipes, :count).by(1)            
+      end
     end
   end
 end
