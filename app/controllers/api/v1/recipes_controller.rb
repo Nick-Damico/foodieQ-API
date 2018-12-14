@@ -13,12 +13,7 @@ class Api::V1::RecipesController < ApplicationController
 
   def create
     # Remember: Move logic of build a recipe to helper method
-    if params[:user_id].present?
-      user = User.find_by(id: params[:user_id])
-      recipe = user.recipes.build(recipe_params)
-    else
-      recipe = Recipe.new(recipe_params)
-    end
+    recipe = build_recipe(params)
 
     if recipe.save
       render json: recipe, status: :created
@@ -46,6 +41,15 @@ class Api::V1::RecipesController < ApplicationController
             title: "Record not found",
             detail: "Record not found with id: #{params[:id]}"
           }]}, status: :not_found
+      end
+    end
+
+    def build_recipe(params)
+      if params[:user_id].present?
+        user = User.find_by(id: params[:user_id])
+        recipe = user.recipes.build(recipe_params)
+      else
+        recipe = Recipe.new(recipe_params)
       end
     end
 end
