@@ -90,12 +90,19 @@ RSpec.describe "RecipesController", :type => :request do
         expect(response_code).to eq(200)
         expect(json_response_title).to eq("Djion mushroom chicken")
       end
+
+      it 'updates associated ingredients with nested params' do
+        put api_v1_recipe_path(@recipe), :params => {recipe: {ingredients_attributes: {name: '10 oz mushrooms'}}}
+
+        binding.pry
+        expect(response.status).to eq(200)
+      end
     end
 
     context 'with invalid attributes' do
       it 'does not update' do
         put api_v1_recipe_path(@recipe), :params => {recipe: {title: ''}}
-        
+
         expect(response.status).to eq(400)
       end
     end
