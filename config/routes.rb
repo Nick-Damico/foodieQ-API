@@ -6,7 +6,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       post :auth, to: "authentication#create"
       post '/signup' => 'users#create'
-      # post '/sign_in', to: 'authentication#create'
+      post '/login', to: 'authentication#create'
+
       resources :recipes
       resources :users do
         resources :recipes
