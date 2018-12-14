@@ -1,6 +1,6 @@
 class Api::V1::RecipesController < ApplicationController
   # before_action :authenticate_user!
-  before_action :set_recipe, only: [:show]
+  before_action :set_recipe, only: [:show, :update]
 
   def index
     recipes = Recipe.all
@@ -19,6 +19,14 @@ class Api::V1::RecipesController < ApplicationController
       render json: recipe, status: :created
     else
       render json: {errors: recipe.errors.full_messages}, status: :bad_request
+    end
+  end
+
+  def update
+    if @recipe.update(recipe_params)
+      render json: @recipe, include: ['ingredients', 'steps'], status: :ok
+    else
+      render json: {errors: @recipe.errors.full_messages}, status: :bad_request
     end
   end
 

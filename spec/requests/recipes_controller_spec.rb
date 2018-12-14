@@ -63,18 +63,40 @@ RSpec.describe "RecipesController", :type => :request do
        expect(response.status).to eq(201)
       end
 
-      it 'returns error if invalid attributes' do
+      it 'creates a user associated recipe' do
+        expect{
+          post api_v1_user_recipes_url(@user), :params => {recipe: {title: 'Mushroom chicken',
+                                                           description: 'Best mushroom chicken'}}
+        }.to change(@user.recipes, :count).by(1)
+      end
+    end
+    context 'with invalid attributes' do
+      it 'returns errors and 400 status' do
         expect{
           post api_v1_recipes_url, :params => {recipe: {name: 'Mushroom Chicken'}}
         }.to_not change(Recipe, :count)
         expect(response.status).to eq(400)
       end
+    end
+  end
 
-      it 'creates a user associated recipe' do
-        expect{
-          post api_v1_user_recipes_url(@user), :params => {recipe: {title: 'Mushroom chicken',
-                                                           description: 'Best mushroom chicken'}}
-        }.to change(@user.recipes, :count).by(1)            
+  describe 'Patch :update' do
+    context 'with valid attributes' do
+      it 'updates a recipe with modified valid attributes' do
+        put api_v1_recipe_path(@recipe), :params => {recipe: {title: 'Djion mushroom chicken'}}
+        json_response_title = JSON.parse(response.body)["data"]["attributes"]["title"]
+        response_code = response.status
+
+        expect(response_code).to eq(200)
+        expect(json_response_title).to eq("Djion mushroom chicken")
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'does not update' do
+        put api_v1_recipe_path(@recipe), :params => {recipe: {title: ''}}
+        
+        expect(response.status).to eq(400)
       end
     end
   end
