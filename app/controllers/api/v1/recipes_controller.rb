@@ -12,7 +12,14 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def create
-    recipe = Recipe.new(recipe_params)
+    # Remember: Move logic of build a recipe to helper method
+    if params[:user_id].present?
+      user = User.find_by(id: params[:user_id])
+      recipe = user.recipes.build(recipe_params)
+    else
+      recipe = Recipe.new(recipe_params)
+    end
+
     if recipe.save
       render json: recipe, status: :created
     else
@@ -27,7 +34,7 @@ class Api::V1::RecipesController < ApplicationController
       if params[:recipe][:ingredients_attributes].present?
         params[:recipe][:ingredients_attributes] = [{name: params[:recipe][:ingredients_attributes][:name]}]
       end
-      params.require(:recipe).permit(:id, :title, :description,
+      params.require(:recipe).permit(:id, :title, :description, :user_id,
         ingredients_attributes: [:id, :name])
     end
 
