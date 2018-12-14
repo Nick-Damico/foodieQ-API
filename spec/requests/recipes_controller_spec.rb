@@ -94,8 +94,20 @@ RSpec.describe "RecipesController", :type => :request do
       it 'updates associated ingredients with nested params' do
         put api_v1_recipe_path(@recipe), :params => {recipe: {ingredients_attributes: {name: '10 oz mushrooms'}}}
 
-        binding.pry
         expect(response.status).to eq(200)
+      end
+
+      it 'updates recipe if the associated user is correct' do
+        put api_v1_user_recipe_path(@user, @recipe), :params => {recipe: {title: 'Best pad thai'}}
+
+        expect(response.status).to eq(200)
+      end
+
+      it 'does not update recipe if the associated user is incorrect' do
+        user_2 = create(:user_2)
+        put api_v1_user_recipe_path(user_2, @recipe), :params => {recipe: {title: 'Best pad thai'}}
+
+        expect(response.status).to eq(400)
       end
     end
 
