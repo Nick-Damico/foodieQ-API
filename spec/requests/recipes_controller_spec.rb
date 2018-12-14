@@ -96,7 +96,17 @@ RSpec.describe "RecipesController", :type => :request do
 
         expect(response.status).to eq(200)
       end
+    end
 
+    context 'with invalid attributes' do
+      it 'does not update' do
+        put api_v1_recipe_path(@recipe), :params => {recipe: {title: ''}}
+
+        expect(response.status).to eq(400)
+      end
+    end
+
+    context 'associated User belongs to' do
       it 'updates recipe if the associated user is correct' do
         put api_v1_user_recipe_path(@user, @recipe), :params => {recipe: {title: 'Best pad thai'}}
 
@@ -110,10 +120,25 @@ RSpec.describe "RecipesController", :type => :request do
         expect(response.status).to eq(400)
       end
     end
+  end
 
-    context 'with invalid attributes' do
-      it 'does not update' do
-        put api_v1_recipe_path(@recipe), :params => {recipe: {title: ''}}
+  describe 'Delete :destroy' do
+    context 'with authorized User' do
+      it 'deletes a record' do
+        expect{
+          delete api_v1_user_recipe_path(@user,@recipe)
+        }.to change(Recipe, :count).by(-1)
+
+        expect(response.status).to eq(204)
+      end
+    end
+
+    context 'with unauthorized User' do
+      it 'does not delete a record' do
+        user_2 = create(:user_2)
+        expect{
+          delete api_v1_user_recipe_path(user_2,@recipe)
+        }.to_not change(Recipe, :count)
 
         expect(response.status).to eq(400)
       end
