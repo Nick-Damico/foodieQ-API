@@ -282,7 +282,7 @@ module Devise
       end
 
       def authenticate!
-        token = request.headers.fetch("Authorization", "").split(' ').last        
+        token = request.headers.fetch("Authorization", "").split(' ').last
         payload = JsonWebToken.decode(token)
         success! User.find(payload["sub"])
       rescue ::JWT::ExpiredSignature
