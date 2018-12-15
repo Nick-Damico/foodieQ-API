@@ -18,7 +18,7 @@ class Api::V1::UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      binding.pry
+      
       token = JsonWebToken.encode(sub: @user.id, email: @user.email)
       render json: {token: token}, status: :created
     else
