@@ -1,5 +1,5 @@
 class Api::V1::RecipesController < ApplicationController
-  # before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:create, :update, :destroy]
   before_action :set_recipe, only: [:show, :update, :destroy]
   before_action :correct_user, only: [:update, :destroy]
 
@@ -67,11 +67,11 @@ class Api::V1::RecipesController < ApplicationController
       end
     end
 
-    # Confirms the correct user.
+    # Confirms the correct User
    def correct_user
      if params[:user_id].present?
        @user = User.find_by(id: params[:user_id])
-       
+
        if @user != current_user && !@user.recipes.include?(@recipe)
          render json: {errors: ["User not authorized to modify recipe that doesn't belong to them"]}, status: :bad_request
        end
