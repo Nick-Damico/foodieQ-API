@@ -58,8 +58,8 @@ RSpec.describe "RecipesController", :type => :request do
       it 'creates a new recipe' do
         expect{
           post api_v1_recipes_url, :params => {recipe: { title: 'Mushroom Chicken',
-            :description => 'Best Mushroom chicken out there'} },
-            :headers => login_user_set_header(@user)
+            :description  => 'Best Mushroom chicken out there'} },
+            :headers      => login_user_set_header(@user)
          }.to change(Recipe,:count).by(1)
        expect(response.status).to eq(201)
       end
@@ -67,9 +67,9 @@ RSpec.describe "RecipesController", :type => :request do
       it 'creates a user associated recipe' do
         expect{
           post api_v1_user_recipes_url(@user),
-            :params => {recipe: {title: 'Mushroom chicken',
-            :description => 'Best mushroom chicken'}},
-            :headers => login_user_set_header(@user)
+            :params       => {recipe: {title: 'Mushroom chicken',
+            :description  => 'Best mushroom chicken'}},
+            :headers      => login_user_set_header(@user)
         }.to change(@user.recipes, :count).by(1)
       end
     end
@@ -77,7 +77,7 @@ RSpec.describe "RecipesController", :type => :request do
       it 'returns errors and 400 status' do
         expect{
           post api_v1_recipes_url,
-          :params => {recipe: {name: 'Mushroom Chicken'}},
+          :params  => {recipe: {name: 'Mushroom Chicken'}},
           :headers => login_user_set_header(@user)
         }.to_not change(Recipe, :count)
         expect(response.status).to eq(400)
@@ -88,7 +88,9 @@ RSpec.describe "RecipesController", :type => :request do
   describe 'Patch :update' do
     context 'with valid attributes' do
       it 'updates a recipe with modified valid attributes' do
-        put api_v1_recipe_path(@recipe), :params => {recipe: {title: 'Djion mushroom chicken'}}
+        put api_v1_recipe_path(@recipe),
+          :params  => {recipe: {title: 'Djion mushroom chicken'}},
+          :headers => login_user_set_header(@user)
         json_response_title = JSON.parse(response.body)["data"]["attributes"]["title"]
         response_code = response.status
 
@@ -97,7 +99,9 @@ RSpec.describe "RecipesController", :type => :request do
       end
 
       it 'updates associated ingredients with nested params' do
-        put api_v1_recipe_path(@recipe), :params => {recipe: {ingredients_attributes: {name: '10 oz mushrooms'}}}
+        put api_v1_recipe_path(@recipe),
+          :params   => {recipe: {ingredients_attributes: {name: '10 oz mushrooms'}}},
+          :headers  => login_user_set_header(@user)
 
         expect(response.status).to eq(200)
       end
@@ -105,7 +109,9 @@ RSpec.describe "RecipesController", :type => :request do
 
     context 'with invalid attributes' do
       it 'does not update' do
-        put api_v1_recipe_path(@recipe), :params => {recipe: {title: ''}}
+        put api_v1_recipe_path(@recipe),
+          :params   => {recipe: {title: ''}},
+          :headers  => login_user_set_header(@user)
 
         expect(response.status).to eq(400)
       end
@@ -113,14 +119,18 @@ RSpec.describe "RecipesController", :type => :request do
 
     context 'associated User belongs to' do
       it 'updates recipe if the associated user is correct' do
-        put api_v1_user_recipe_path(@user, @recipe), :params => {recipe: {title: 'Best pad thai'}}
+        put api_v1_user_recipe_path(@user, @recipe),
+          :params   => {recipe: {title: 'Best pad thai'}},
+          :headers  => login_user_set_header(@user)
 
         expect(response.status).to eq(200)
       end
 
       it 'does not update recipe if the associated user is incorrect' do
         user_2 = create(:user_2)
-        put api_v1_user_recipe_path(user_2, @recipe), :params => {recipe: {title: 'Best pad thai'}}
+        put api_v1_user_recipe_path(user_2, @recipe),
+          :params   => {recipe: {title: 'Best pad thai'}},
+          :headers  => login_user_set_header(@user)
 
         expect(response.status).to eq(400)
       end
@@ -131,7 +141,8 @@ RSpec.describe "RecipesController", :type => :request do
     context 'with authorized User' do
       it 'deletes a record' do
         expect{
-          delete api_v1_user_recipe_path(@user,@recipe)
+          delete api_v1_user_recipe_path(@user,@recipe),
+          :headers => login_user_set_header(@user)
         }.to change(Recipe, :count).by(-1)
 
         expect(response.status).to eq(204)
@@ -142,7 +153,8 @@ RSpec.describe "RecipesController", :type => :request do
       it 'does not delete a record' do
         user_2 = create(:user_2)
         expect{
-          delete api_v1_user_recipe_path(user_2,@recipe)
+          delete api_v1_user_recipe_path(user_2,@recipe),
+          :headers => login_user_set_header(user_2)
         }.to_not change(Recipe, :count)
 
         expect(response.status).to eq(400)
