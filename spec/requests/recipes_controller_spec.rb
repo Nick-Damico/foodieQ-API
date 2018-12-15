@@ -59,16 +59,19 @@ RSpec.describe "RecipesController", :type => :request do
         expect{
           token = login_user(@user)["token"]
           post api_v1_recipes_url, :params => {recipe: { title: 'Mushroom Chicken',
-            description: 'Best Mushroom chicken out there'} },
-            headers: {"HTTP_AUTHORIZATION" => "Bearer #{token}"}
+            :description => 'Best Mushroom chicken out there'} },
+            :headers => set_auth_bearer_token(token)
          }.to change(Recipe,:count).by(1)
        expect(response.status).to eq(201)
       end
 
       it 'creates a user associated recipe' do
         expect{
-          post api_v1_user_recipes_url(@user), :params => {recipe: {title: 'Mushroom chicken',
-                                                           description: 'Best mushroom chicken'}}
+          token = login_user(@user)["token"]
+          post api_v1_user_recipes_url(@user),
+            :params => {recipe: {title: 'Mushroom chicken',
+            :description => 'Best mushroom chicken'}},
+            :headers => set_auth_bearer_token(token)
         }.to change(@user.recipes, :count).by(1)
       end
     end
