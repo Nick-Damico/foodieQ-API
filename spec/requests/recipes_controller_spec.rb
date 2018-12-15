@@ -57,8 +57,10 @@ RSpec.describe "RecipesController", :type => :request do
     context 'with valid attributes' do
       it 'creates a new recipe' do
         expect{
-          post api_v1_recipes_url, :params => {recipe: {title: 'Mushroom Chicken',
-                                               description: 'Best Mushroom chicken out there'}}
+          token = login_user(@user)["token"]
+          post api_v1_recipes_url, :params => {recipe: { title: 'Mushroom Chicken',
+            description: 'Best Mushroom chicken out there'} },
+            headers: {"HTTP_AUTHORIZATION" => "Bearer #{token}"}
          }.to change(Recipe,:count).by(1)
        expect(response.status).to eq(201)
       end
