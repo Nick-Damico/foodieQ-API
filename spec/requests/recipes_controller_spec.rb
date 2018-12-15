@@ -57,28 +57,28 @@ RSpec.describe "RecipesController", :type => :request do
     context 'with valid attributes' do
       it 'creates a new recipe' do
         expect{
-          token = login_user(@user)["token"]
           post api_v1_recipes_url, :params => {recipe: { title: 'Mushroom Chicken',
             :description => 'Best Mushroom chicken out there'} },
-            :headers => set_auth_bearer_token(token)
+            :headers => login_user_set_header(@user)
          }.to change(Recipe,:count).by(1)
        expect(response.status).to eq(201)
       end
 
       it 'creates a user associated recipe' do
         expect{
-          token = login_user(@user)["token"]
           post api_v1_user_recipes_url(@user),
             :params => {recipe: {title: 'Mushroom chicken',
             :description => 'Best mushroom chicken'}},
-            :headers => set_auth_bearer_token(token)
+            :headers => login_user_set_header(@user)
         }.to change(@user.recipes, :count).by(1)
       end
     end
     context 'with invalid attributes' do
       it 'returns errors and 400 status' do
         expect{
-          post api_v1_recipes_url, :params => {recipe: {name: 'Mushroom Chicken'}}
+          post api_v1_recipes_url,
+          :params => {recipe: {name: 'Mushroom Chicken'}},
+          :headers => login_user_set_header(@user)
         }.to_not change(Recipe, :count)
         expect(response.status).to eq(400)
       end
