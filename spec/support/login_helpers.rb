@@ -1,0 +1,11 @@
+module LoginHelpers
+  # Login and sign_up methods return a JSON web token, to be captured
+  # and used on subsequent requests that require authentication
+
+  def login_in(user)
+    post api_v1_login_path, :params => {user: {email: user.email,
+                                              password: user.password}}
+
+    JSON.parse(response.body)
+  end
+end
