@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "UsersController", :type => :request do
+RSpec.describe 'UsersController', type: :request do
   before do
     DatabaseCleaner.clean
     @user = create(:user_1)
@@ -49,29 +49,29 @@ RSpec.describe "UsersController", :type => :request do
       get api_v1_user_path(@user)
       attributes = user_attributes
 
-      expect(attributes["email"]).to eq(@user.email)
+      expect(attributes['email']).to eq(@user.email)
     end
   end
 
   describe 'POST :create' do
     context 'with valid attributes' do
       it 'adds a new User' do
-        expect{
-          post api_v1_users_path, :params => valid_user_params
-        }.to change(User, :count).by(1)
+        expect do
+          post api_v1_users_path, params: valid_user_params
+        end.to change(User, :count).by(1)
       end
 
       it 'responds successfully' do
-        post api_v1_users_path, :params => valid_user_params
+        post api_v1_users_path, params: valid_user_params
 
         expect(response).to be_success
       end
     end
     context 'with invalid attributes' do
       it 'does not add a User' do
-        expect {
-          post api_v1_users_path, :params => invalid_user_params
-        }.to_not change(User, :count)
+        expect do
+          post api_v1_users_path, params: invalid_user_params
+        end.to_not change(User, :count)
       end
     end
   end
@@ -79,10 +79,10 @@ RSpec.describe "UsersController", :type => :request do
   describe 'PATCH :update' do
     context 'with authorization' do
       it 'responds successfully with 200' do
-        token = login_user(@user)["token"]
+        token = login_user(@user)['token']
         patch api_v1_user_path(@user),
-          :headers => set_auth_bearer_token(token),
-          :params => { :user => {email: 'users_one@example.com', password: 'validTest'}}
+              headers: set_auth_bearer_token(token),
+              params: { user: { email: 'users_one@example.com', password: 'validTest' } }
 
         expect(response).to have_http_status(200)
         expect(response).to be_success
@@ -90,43 +90,43 @@ RSpec.describe "UsersController", :type => :request do
 
       context 'with valid attributes' do
         it 'updates attributes' do
-          token = login_user(@user)["token"]
+          token = login_user(@user)['token']
           patch api_v1_user_path(@user),
-          :headers => set_auth_bearer_token(token),
-          :params => { :user => {email: 'users_one@example.com', password: 'validTest'}}
+                headers: set_auth_bearer_token(token),
+                params: { user: { email: 'users_one@example.com', password: 'validTest' } }
 
           attributes = user_attributes
-          expect(attributes["email"]).to eq('users_one@example.com')
+          expect(attributes['email']).to eq('users_one@example.com')
         end
       end
 
       context 'with invalid attributes' do
         it 'does not update attributes' do
-            token = login_user(@user)["token"]
-            patch api_v1_user_path(@user),
-            :headers => set_auth_bearer_token(token),
-            :params => { :user => {email: 'invalid.com', password: 'validTest'}}
-            user = User.find(@user.id)
+          token = login_user(@user)['token']
+          patch api_v1_user_path(@user),
+                headers: set_auth_bearer_token(token),
+                params: { user: { email: 'invalid.com', password: 'validTest' } }
+          user = User.find(@user.id)
 
-            expect(user.email).to_not eq('invalid.com')
+          expect(user.email).to_not eq('invalid.com')
         end
       end
     end
 
     context 'without authorization' do
       it 'responds unsuccessfully' do
-        token = login_user(@user)["token"]
+        token = login_user(@user)['token']
         patch api_v1_user_path(@user),
-        :params => { :user => {email: 'invalid.com', password: 'validTest'}}
+              params: { user: { email: 'invalid.com', password: 'validTest' } }
 
         expect(response).to_not be_success
       end
 
       it 'does not let a User update another Users attributes' do
-        token = login_user(@user2)["token"]
+        token = login_user(@user2)['token']
         patch api_v1_user_path(@user),
-        :headers => set_auth_bearer_token(token),
-        :params => { :user => {email: 'user123@example.com', password: 'validTest'}}
+              headers: set_auth_bearer_token(token),
+              params: { user: { email: 'user123@example.com', password: 'validTest' } }
 
         expect(response).to have_http_status(401)
       end
@@ -136,25 +136,37 @@ RSpec.describe "UsersController", :type => :request do
     context 'with authorization' do
       it 'responds successfully' do
         delete_request
-
         expect(response).to be_success
       end
 
       it 'responds with status 204' do
         delete_request
-
         expect(response).to have_http_status(204)
       end
 
       it 'deletes User' do
-        expect{
+        expect do
           delete_request
-        }.to change(User, :count).by(-1)
+        end.to change(User, :count).by(-1)
       end
     end
 
     context 'without authorization' do
+      it 'is unsuccessful' do
+        unauth_delete_request
+        expect(response).to_not be_success
+      end
 
+      it 'responds with status 401' do
+        unauth_delete_request
+        expect(response).to have_http_status(401)
+      end
+
+      it 'does not delete User' do
+        expect{
+          unauth_delete_request
+        }.to_not change(User,:count)
+      end
     end
   end
 end
