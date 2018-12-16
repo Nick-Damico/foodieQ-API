@@ -132,4 +132,29 @@ RSpec.describe "UsersController", :type => :request do
       end
     end
   end
+  describe 'DELETE :destroy' do
+    context 'with authorization' do
+      it 'responds successfully' do
+        delete_request
+
+        expect(response).to be_success
+      end
+
+      it 'responds with status 204' do
+        delete_request
+
+        expect(response).to have_http_status(204)
+      end
+
+      it 'deletes User' do
+        expect{
+          delete_request
+        }.to change(User, :count).by(-1)
+      end
+    end
+
+    context 'without authorization' do
+
+    end
+  end
 end
