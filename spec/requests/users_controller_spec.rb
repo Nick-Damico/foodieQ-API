@@ -26,7 +26,7 @@ RSpec.describe "UsersController", :type => :request do
 
     it 'returns a list of users' do
       get api_v1_users_path
-      json_response = response_to_json(response)
+      json_response = response_to_json
 
       expect(json_response.size).to eq(2)
     end
@@ -38,7 +38,7 @@ RSpec.describe "UsersController", :type => :request do
 
       expect(response).to be_success
     end
-    
+
     it 'returns a status of 200' do
       get api_v1_user_path(@user)
 
@@ -47,9 +47,9 @@ RSpec.describe "UsersController", :type => :request do
 
     it 'returns a users info' do
       get api_v1_user_path(@user)
-      json_response = response_to_json
+      attributes = user_attributes
 
-      expect(json_response).to
+      expect(attributes["email"]).to eq(@user.email)
     end
-  end
+  end  
 end
