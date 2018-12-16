@@ -51,5 +51,28 @@ RSpec.describe "UsersController", :type => :request do
 
       expect(attributes["email"]).to eq(@user.email)
     end
-  end  
+  end
+
+  describe 'GET :create' do
+    context 'with valid attributes' do
+      it 'adds a new User' do
+        expect{
+          post api_v1_users_path, :params => valid_user_params
+        }.to change(User, :count).by(1)
+      end
+
+      it 'responds successfully' do
+        post api_v1_users_path, :params => valid_user_params
+
+        expect(response).to be_success
+      end
+    end
+    context 'with invalid attributes' do
+      it 'does not add a User' do
+        expect {
+          post api_v1_users_path, :params => invalid_user_params
+        }.to_not change(User, :count)
+      end
+    end
+  end
 end
