@@ -53,7 +53,7 @@ RSpec.describe "UsersController", :type => :request do
     end
   end
 
-  describe 'GET :create' do
+  describe 'POST :create' do
     context 'with valid attributes' do
       it 'adds a new User' do
         expect{
@@ -75,4 +75,6 @@ RSpec.describe "UsersController", :type => :request do
       end
     end
   end
+
+
 end
