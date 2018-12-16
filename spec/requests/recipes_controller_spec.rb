@@ -3,15 +3,14 @@ require "rails_helper"
 RSpec.describe "RecipesController", :type => :request do
   before do
     DatabaseCleaner.clean
-    @user = create(:valid_user)
+    @user = create(:user_1) 
     @recipe = build(:recipe)
     @recipe_2 = build(:recipe_2)
     @user.recipes.push(@recipe, @recipe_2)
     @user.save
   end
   describe 'GET :index' do
-
-    it 'returns a HTTP status' do
+    it 'returns a status of 200 of success' do
       get api_v1_recipes_url
 
       expect(response).to have_http_status(200)
