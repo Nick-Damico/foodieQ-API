@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Recipe, type: :model do
   before(:all) do
     DatabaseCleaner.clean
-    @user = create(:valid_user)
+    @user = create(:user_1)
     @recipe = build(:recipe)
     @recipe.user = @user
     # Ingredients to test associations between models

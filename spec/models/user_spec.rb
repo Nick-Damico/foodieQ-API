@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   before do
     DatabaseCleaner.clean
-    @user = create(:valid_user)
+    @user = create(:user_1)
   end
 
   it 'is valid with a valid email, password, admin attributes' do
