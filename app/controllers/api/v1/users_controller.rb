@@ -1,5 +1,7 @@
 class Api::V1::UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
+  before_action :authenticate_user!, only: [:update, :destroy]
+  before_action :correct_user, only: [:update, :destroy]
 
   def index
     @users = User.all
@@ -18,7 +20,7 @@ class Api::V1::UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      
+
       token = JsonWebToken.encode(sub: @user.id, email: @user.email)
       render json: {token: token}, status: :created
     else
@@ -44,6 +46,13 @@ class Api::V1::UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:email, :password, :password_confirmation)
+      params.require(:user).permit(:id, :email, :password, :password_confirmation)
     end
+
+    # Confirms the current User is the Recipe owner before modify data
+   def correct_user
+     if current_user != @user
+       render json: {errors: ["User not authorized to modify an account that doesn't belong to them"]}, status: :unauthorized
+     end
+   end
 end
