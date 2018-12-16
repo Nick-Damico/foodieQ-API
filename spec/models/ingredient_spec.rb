@@ -19,16 +19,16 @@ RSpec.describe Ingredient, type: :model do
     expect(ingredient.errors[:name]).to include("can't be blank")
   end
 
-  it 'is valid with name between 8 and 200 characters in length' do
+  it 'is valid with name between 4 and 200 characters in length' do
     expect(@ingredient).to be_valid
   end
 
   it 'is invalid with name length less then 4' do
     ingredient = build(:ingredient)
-    ingredient.name = 'cup tea'
+    ingredient.name = '1oz'
 
     expect(ingredient).to_not be_valid
-    expect(ingredient.errors[:name]).to include("is too short (minimum is 8 characters)")
+    expect(ingredient.errors[:name]).to include("is too short (minimum is 4 characters)")
   end
 
   it 'is invalid with name lenght greater then 200' do
