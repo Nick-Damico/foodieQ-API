@@ -4,6 +4,7 @@ RSpec.describe User, type: :model do
   before do
     DatabaseCleaner.clean
     @user = create(:user_1)
+    @user.recipes.create(title: 'Apple Moonshine Pie', description: 'Best moonshine pie')
   end
 
   it 'is valid with a valid email, password, admin attributes' do
@@ -53,15 +54,23 @@ RSpec.describe User, type: :model do
   describe 'has_many recipes' do
     it 'has a recipes collection method :recipes' do
       expect(@user).to respond_to(:recipes)
-      expect(@user.recipes).to eq([])
+      expect(@user.recipes.length).to eq(1)
     end
 
     it 'has recipes collection' do
       @recipe = Recipe.create(title: "Mom's chicken noodle soup",
                               description: "Mom's delicious homemade chicken noodle soup with celery and carrots.")
       @user.recipes << @recipe
-      expect(@user.recipes.length).to eq(1)
+      expect(@user.recipes.length).to eq(2)
       expect(@user.recipes).to include(@recipe)
+    end
+
+    context 'delete user' do
+      it 'removes associated recipes' do
+        expect{
+          @user.destroy
+        }.to change(Recipe, :count).by(-1)
+      end
     end
   end
 end
