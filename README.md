@@ -1,5 +1,14 @@
 # FoodieQ Rails 5 Api
 
+FoodieQ Api is built with Rails 5+ in --api only mode. It serves as the backend to
+the client side React & Redux application Foodie-q. Using Active Model Serializer,
+it formats data and responds with JSON formatted responses following suggested
+best practices from [jsonapi.org](https://jsonapi.org).
+
+The backend utilizes Devise gem along with JWT gem for authenticating and authorizing
+users. Not all endpoints are protected, public requests can be made to the
+backend for all recipes at `https://foodieq-api.herokuapp.com/api/v1/recipes`. 
+
 ## Ruby version
   ruby 2.3.3
   rails 5.1.6
