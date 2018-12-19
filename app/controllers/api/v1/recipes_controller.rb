@@ -4,8 +4,8 @@ class Api::V1::RecipesController < ApplicationController
   before_action :correct_user, only: [:update, :destroy]
 
   def index
-    recipes = Recipe.all
-    render json: recipes, include: ['ingredients', 'steps'], status: :ok
+    @recipes = Recipe.all
+    render json: @recipes, include: ['ingredients', 'steps'], status: :ok
   end
 
   def show
