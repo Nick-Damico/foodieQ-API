@@ -6,7 +6,7 @@ class Api::V1::AuthenticationController < ApiController
     if user.valid_password? params[:user][:password]
       render json: { token: JsonWebToken.encode(sub: user.id, email: user.email) }
     else
-      render json: { errors: ["Invalid email or password"] }
+      render json: { errors: ['Invalid email or password'] }
     end
   end
 end
