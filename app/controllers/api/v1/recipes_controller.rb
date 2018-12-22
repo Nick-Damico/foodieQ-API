@@ -5,7 +5,8 @@ class Api::V1::RecipesController < ApplicationController
   before_action :recipe_owner, only: %i[update destroy]
 
   def index
-    @recipes = Recipe.all
+    @pagy, @recipes = pagy(Recipe.all, items: 20)
+
     render json: @recipes, include: %w[ingredients steps], status: :ok
   end
 
