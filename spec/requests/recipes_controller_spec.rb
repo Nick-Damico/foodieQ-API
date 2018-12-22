@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "RecipesController", :type => :request do
   before do
     DatabaseCleaner.clean
-    @user = create(:user_1) 
+    @user = create(:user_1)
     @recipe = build(:recipe)
     @recipe_2 = build(:recipe_2)
     @user.recipes.push(@recipe, @recipe_2)
