@@ -2,6 +2,8 @@ class ApiController < ApplicationController
   before_action :set_default_format
   before_action :authenticate_user!
 
+  # include Helpers::UserHelpers
+
   private
 
     def set_default_format
