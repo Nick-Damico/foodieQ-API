@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
   before_action :authenticate_user!, only: [:update, :destroy]
+  before_action :set_user, only: [:show, :update, :destroy, :logout]
   before_action :correct_user, only: [:update, :destroy]
 
   def index
@@ -36,7 +36,13 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def logout
+    logout @user
+    status: :ok
+  end
+
   def destroy
+    log_out @user
     @user.destroy
   end
 
@@ -51,7 +57,7 @@ class Api::V1::UsersController < ApplicationController
 
     # Confirms the current User is the Recipe owner before modify data
    def correct_user
-     if current_user != @user
+     unless current_user?(@user)
        render json: {errors: ["User not authorized to modify an account that doesn't belong to them"]}, status: :unauthorized
      end
    end
