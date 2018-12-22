@@ -160,4 +160,20 @@ RSpec.describe "RecipesController", :type => :request do
       end
     end
   end
+
+  describe 'Pagination with Pagy' do
+    before do
+      90.times do
+        Recipe.create!(title: Faker::Food.dish, description: Faker::Food.description)
+      end
+    end
+    context 'without params' do
+      it 'default request returns 20 recipes' do
+        get api_v1_recipes_path
+        data = response_to_json
+
+        expect(data.size).to eq(20)
+      end
+    end
+  end
 end
