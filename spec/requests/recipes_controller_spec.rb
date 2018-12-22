@@ -175,5 +175,19 @@ RSpec.describe "RecipesController", :type => :request do
         expect(data.size).to eq(20)
       end
     end
+
+    context 'with params page: 2' do
+      it 'returns recipes ranging from id 21 thru 40' do
+        get api_v1_recipes_path,
+            params: {page: 2}
+
+        data = response_to_json
+        first_recipe = data[0]
+        last_recipe  = data[data.size - 1]
+
+        expect(first_recipe["id"]).to eq('21')
+        expect(last_recipe["id"]).to eq('40')
+      end
+    end
   end
 end
