@@ -107,6 +107,7 @@ GEM
     nokogiri (1.8.5-x86-mingw32)
       mini_portile2 (~> 2.3.0)
     orm_adapter (0.5.0)
+    pagy (1.2.1)
     parallel (1.12.1)
     parser (2.5.3.0)
       ast (~> 2.4.0)
@@ -233,6 +234,7 @@ DEPENDENCIES
   faker (~> 1.9, >= 1.9.1)
   jwt (~> 2.1)
   listen (>= 3.0.5, < 3.2)
+  pagy (~> 1.2, >= 1.2.1)
   pg (>= 0.18, < 2.0)
   pry
   puma (~> 3.7)

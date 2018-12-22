@@ -7,7 +7,7 @@ best practices from [jsonapi.org](https://jsonapi.org).
 
 The backend utilizes Devise gem along with JWT gem for authenticating and authorizing
 users. Not all endpoints are protected, public requests can be made to the
-backend for all recipes at `https://foodieq-api.herokuapp.com/api/v1/recipes`. 
+backend for all recipes at `https://foodieq-api.herokuapp.com/api/v1/recipes`.
 
 ## Ruby version
   ruby 2.3.3
@@ -19,6 +19,8 @@ backend for all recipes at `https://foodieq-api.herokuapp.com/api/v1/recipes`.
   rails
   postgreSQL
   Bundler
+  Pagy - for paginating Recipes, and Users on future update
+  AMS  - for Serializing Resources and associated resources
 
 ## Install
   1. Make sure PostgreSQL is install and running on your system.
