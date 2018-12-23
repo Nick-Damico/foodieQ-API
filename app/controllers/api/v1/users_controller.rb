@@ -4,7 +4,7 @@ class Api::V1::UsersController < ApplicationController
   before_action :correct_user, only: %i[update destroy]
 
   def index
-    @users = User.all
+    @pagy, @users = pagy(User.all, items: 20)
 
     render json: @users
   end

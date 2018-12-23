@@ -169,4 +169,53 @@ RSpec.describe 'UsersController', type: :request do
       end
     end
   end
+
+  describe 'Pagination with Pagy' do
+    before do
+      99.times do
+        password = Faker::Lorem.words(7)
+        User.create!(email: Faker::Internet.email,
+                     password: password,
+                     password_confirmation: password)
+      end
+    end
+    context 'without params, default request' do
+      it 'returns 20 Users' do
+        get api_v1_users_path
+        data = response_to_json
+
+        expect(data.size).to eq(20)
+      end
+
+      it "returns a list of Users with id's ranging 1 thru 20" do
+        get api_v1_users_path
+        data = response_to_json
+        first_user = data[0]
+        last_user = data[data.size - 1]
+
+        expect(first_user["id"]).to eq("1")
+        expect(last_user["id"]).to eq("20")
+      end
+    end
+
+    context 'with params, page: 2' do
+      it 'returns 20 Users' do
+        get api_v1_users_path
+        data = response_to_json
+
+        expect(data.size).to eq(20)
+      end
+
+      it "returns a list of Users with id's ranging 21 thru 40" do
+        get api_v1_users_path,
+        params: {page: 2}
+        data = response_to_json
+        first_user = data[0]
+        last_user = data[data.size - 1]
+
+        expect(first_user["id"]).to eq("21")
+        expect(last_user["id"]).to eq("40")
+      end
+    end
+  end
 end
