@@ -172,6 +172,7 @@ RSpec.describe 'UsersController', type: :request do
 
   describe 'Pagination with Pagy' do
     before do
+      DatabaseCleaner.clean
       99.times do
         password = Faker::Lorem.words(7)
         User.create!(email: Faker::Internet.email,
