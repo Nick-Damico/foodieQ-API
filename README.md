@@ -10,17 +10,17 @@ users. Not all endpoints are protected, public requests can be made to the
 backend for all recipes at `https://foodieq-api.herokuapp.com/api/v1/recipes`.
 
 ## Ruby version
-  ruby 2.3.3\n
-  rails 5.2.0\n
-  rails-rspec 3.8\n
+  ruby 2.3.3 <br/>
+  rails 5.2.0<br/>
+  rails-rspec 3.8<br/>
 
 ## System dependencies
-  ruby\n
-  rails\n
-  postgreSQL\n
-  Bundler\n
-  Pagy - for paginating Recipes, and Users on future update\n
-  AMS  - for Serializing Resources and associated resources\n
+  ruby<br/>
+  rails<br/>
+  postgreSQL<br/>
+  Bundler<br/>
+  Pagy - for paginating Recipes, and Users on future update<br/>
+  AMS  - for Serializing Resources and associated resources<br/>
 
 ## Install
   1. Make sure PostgreSQL is install and running on your system.
