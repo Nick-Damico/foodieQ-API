@@ -15,7 +15,7 @@ RSpec.describe 'UsersController', type: :request do
     it 'responds successfully' do
       get api_v1_users_path
 
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it 'responds with 200 status' do
@@ -36,7 +36,7 @@ RSpec.describe 'UsersController', type: :request do
     it 'responds successfully' do
       get api_v1_user_path(@user)
 
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it 'returns a status of 200' do
@@ -64,7 +64,7 @@ RSpec.describe 'UsersController', type: :request do
       it 'responds successfully' do
         post api_v1_users_path, params: valid_user_params
 
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
     context 'with invalid attributes' do
@@ -85,7 +85,7 @@ RSpec.describe 'UsersController', type: :request do
               params: { user: { email: 'users_one@example.com', password: 'validTest' } }
 
         expect(response).to have_http_status(200)
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       context 'with valid attributes' do
@@ -119,7 +119,7 @@ RSpec.describe 'UsersController', type: :request do
         patch api_v1_user_path(@user),
               params: { user: { email: 'invalid.com', password: 'validTest' } }
 
-        expect(response).to_not be_success
+        expect(response).to_not be_successful
       end
 
       it 'does not let a User update another Users attributes' do
@@ -136,7 +136,7 @@ RSpec.describe 'UsersController', type: :request do
     context 'with authorization' do
       it 'responds successfully' do
         delete_request
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it 'responds with status 204' do
@@ -154,7 +154,7 @@ RSpec.describe 'UsersController', type: :request do
     context 'without authorization' do
       it 'is unsuccessful' do
         unauth_delete_request
-        expect(response).to_not be_success
+        expect(response).to_not be_successful
       end
 
       it 'responds with status 401' do
