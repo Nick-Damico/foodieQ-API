@@ -51,6 +51,12 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'Avatar' do
+    it 'has a profile avatar' do
+      expect(@user).to respond_to(:avatar)
+    end
+  end
+
   describe 'has_many recipes' do
     it 'has a recipes collection method :recipes' do
       expect(@user).to respond_to(:recipes)
