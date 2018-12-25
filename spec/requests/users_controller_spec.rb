@@ -111,6 +111,21 @@ RSpec.describe 'UsersController', type: :request do
           expect(user.email).to_not eq('invalid.com')
         end
       end
+
+      context 'adds avatar to User model' do
+        it 'uploads a user avatar' do
+          token = login_user(@user)['token']
+          file = fixture_file_upload(Rails.root.join('public', 'images', 'avatars', 'male_avatar.jpg'), 'image/jpg')
+
+          expect {
+            patch api_v1_user_path(@user),
+            headers: set_auth_bearer_token(token),
+            params: {user: {avatar: file, email: @user.email, password: @user.password}}
+          }.to change(ActiveStorage::Attachment, :count).by(1)
+
+          expect(@user.avatar.attached?).to eq(true)
+        end
+      end
     end
 
     context 'without authorization' do
