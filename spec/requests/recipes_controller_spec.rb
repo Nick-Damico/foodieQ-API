@@ -139,12 +139,10 @@ RSpec.describe "RecipesController", :type => :request do
       it 'adds a recipe image' do
         file = fixture_file_upload(Rails.root.join('public', 'images', 'recipes', 'recipe_1.png'), 'image/png')
         expect{
-          put api_v1_recipe_path(@recipe),
+          patch api_v1_user_recipe_path(@user, @recipe),
           :params  => {recipe: {title: 'Djion mushroom chicken', image: file}},
           :headers => login_user_set_header(@user)
         }.to change(ActiveStorage::Attachment, :count).by(1)
-
-        expect(@recipe.image.attached?).to eq(true)
       end
     end
   end
