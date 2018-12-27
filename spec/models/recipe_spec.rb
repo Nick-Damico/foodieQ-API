@@ -68,7 +68,7 @@ RSpec.describe Recipe, type: :model do
   end
 
   describe "image" do
-    context 'with a valid image of type, size' do
+    context 'with a valid image of type and size' do
       it 'has an attribute of image' do
         expect(@recipe).to respond_to(:image)
       end
@@ -83,10 +83,21 @@ RSpec.describe Recipe, type: :model do
       end
     end
 
-    context 'with an invalid image of type, size' do
+    context 'with an invalid image of type and size' do
       it 'is invalid with a content type not of .jpg or .png' do
         file = fixture_file_upload(Rails.root.join('public', 'documents', 'text.pdf'))
-        binding.pry
+        @recipe.image = file
+
+        expect(@recipe).to_not be_valid
+        expect(@recipe.errors.full_messages).to include('Image must be of content types: jpg, png')
+      end
+
+      it 'is invalid with a file > 5mb' do
+        file = fixture_file_upload(Rails.root.join('public', 'images', 'recipes', 'large.jpg'), 'image/jpg')
+        @recipe.image = file
+
+        expect(@recipe).to_not be_valid
+        expect(@recipe.errors.full_messages).to include('Image is too large, max file size is 5mb')
       end
     end
   end
