@@ -25,7 +25,7 @@ class Api::V1::RecipesController < ApplicationController
     end
   end
 
-  def update
+  def update    
     if @recipe.update_attributes(recipe_params)
       render json: @recipe, include: %w[ingredients steps], status: :ok
     else
