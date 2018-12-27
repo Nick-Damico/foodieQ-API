@@ -67,6 +67,12 @@ RSpec.describe Recipe, type: :model do
     end
   end
 
+  describe "image" do
+    it 'has an attribute of image' do
+      expect(@recipe).to respond_to(:image)
+    end
+  end
+
   describe 'Callback #format_description_title' do
     it 'removes leading/trailing whitepace and capitalizes first letter of title and description' do
       @recipe.title = ' orange cake '

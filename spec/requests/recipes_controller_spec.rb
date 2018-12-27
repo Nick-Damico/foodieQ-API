@@ -134,6 +134,19 @@ RSpec.describe "RecipesController", :type => :request do
         expect(response.status).to eq(400)
       end
     end
+
+    context 'with valid image file' do
+      it 'adds a recipe image' do
+        file = fixture_file_upload(Rails.root.join('public', 'images', 'recipes', 'recipe_1.png'), 'image/png')
+        expect{
+          put api_v1_recipe_path(@recipe),
+          :params  => {recipe: {title: 'Djion mushroom chicken', image: file}},
+          :headers => login_user_set_header(@user)
+        }.to change(ActiveStorage::Attachment, :count).by(1)
+
+        expect(@recipe.image.attached?).to eq(true)
+      end
+    end
   end
 
   describe 'Delete :destroy' do
