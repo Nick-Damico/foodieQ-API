@@ -68,8 +68,26 @@ RSpec.describe Recipe, type: :model do
   end
 
   describe "image" do
-    it 'has an attribute of image' do
-      expect(@recipe).to respond_to(:image)
+    context 'with a valid image of type, size' do
+      it 'has an attribute of image' do
+        expect(@recipe).to respond_to(:image)
+      end
+
+      it 'takes an image file as a value' do
+        file = fixture_file_upload(Rails.root.join('public', 'images', 'recipes', 'recipe_1.png'), 'image/png')
+        @recipe.image = file
+        @recipe.save
+
+        expect(@recipe.image.attached?).to eq(true)
+        expect(@recipe.image.filename).to eq(file.original_filename)
+      end
+    end
+
+    context 'with an invalid image of type, size' do
+      it 'is invalid with a content type not of .jpg or .png' do
+        file = fixture_file_upload(Rails.root.join('public', 'documents', 'text.pdf'))
+        binding.pry
+      end
     end
   end
 
