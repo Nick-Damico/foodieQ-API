@@ -46,7 +46,7 @@ class Api::V1::RecipesController < ApplicationController
     if params[:recipe][:ingredients_attributes].present?
       params[:recipe][:ingredients_attributes] = [{ name: params[:recipe][:ingredients_attributes][:name] }]
     end
-    params.require(:recipe).permit(:id, :title, :description, :user_id,
+    params.require(:recipe).permit(:id, :title, :description, :image, :user_id,
                                    ingredients_attributes: %i[id name])
   end
 
