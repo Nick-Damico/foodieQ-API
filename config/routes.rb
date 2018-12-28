@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       post :auth, to: "authentication#create"
       post '/signup' => 'users#create'
       post '/login', to: 'authentication#create'
-
+      delete '/logout', to: 'authentication#destroy'
       resources :recipes
       resources :users do
         resources :recipes
