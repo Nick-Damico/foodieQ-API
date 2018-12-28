@@ -7,12 +7,12 @@ RSpec.describe 'AuthenticationRequests', type: :request do
   describe 'sign up' do
     it 'creates a new User' do
       expect do
-        signup
+        signup_request
       end.to change(User, :count).by(1)
     end
 
     it 'returns a JWT token on succesful sign up' do
-      signup
+      signup_request
 
       expect(response.status).to eq(201)
       expect(parse_response['token']).to be
@@ -34,6 +34,20 @@ RSpec.describe 'AuthenticationRequests', type: :request do
       login_user(@user)
 
       expect(parse_response['token']).to be
+    end
+  end
+
+  describe 'log out' do
+    before do
+      @user = create(:user_1)
+      @token = login_user(@user)['token']
+    end
+
+    it 'it logs out a User successfully' do
+      logout_request(@token)
+
+      expect(response).to be_successful
+      expect(parse_response['message']).to eq('You have successfully logged out.')
     end
   end
 end
