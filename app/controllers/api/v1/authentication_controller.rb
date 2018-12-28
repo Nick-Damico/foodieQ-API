@@ -1,5 +1,5 @@
 class Api::V1::AuthenticationController < ApiController
-  skip_before_action :authenticate_user!
+  skip_before_action :authenticate_user!, only: %i[create]
 
   def create
     user = User.find_by(email: params[:user][:email])
@@ -8,5 +8,10 @@ class Api::V1::AuthenticationController < ApiController
     else
       render json: { errors: ['Invalid email or password'] }
     end
+  end
+
+  def destroy
+    log_out current_user
+    render json: { message: 'You have successfully logged out.' }, status: :ok
   end
 end

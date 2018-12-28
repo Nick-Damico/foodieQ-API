@@ -36,11 +36,6 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  def logout
-    logout @user
-    render json: { message: 'Logout successful' }, status: :ok
-  end
-
   def destroy
     log_out @user
     @user.destroy
