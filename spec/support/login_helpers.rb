@@ -15,16 +15,4 @@ module LoginHelpers
     token = login_user(user)["token"]
     set_auth_bearer_token(token)
   end
-
-  def delete_request
-    token = login_user(@user)["token"]
-    delete api_v1_user_path(@user),
-    :headers => set_auth_bearer_token(token)
-  end
-
-  def unauth_delete_request
-    token = login_user(@user)["token"]
-    delete api_v1_user_path(@user2),
-    :headers => set_auth_bearer_token(token)
-  end
 end
