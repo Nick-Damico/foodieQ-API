@@ -7,8 +7,9 @@ class RecipeSerializer < ActiveModel::Serializer
   has_one  :image
 
   def links
-    {
-      image_url: rails_blob_path(object.image)
-    }
+    resource_links = {}
+    resource_links[:image_url] = rails_blob_path(object.image) if object.image_attachment
+    resource_links[:recipe_url] = api_v1_recipe_url(object)
+    resource_links
   end
 end
