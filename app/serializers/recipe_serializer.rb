@@ -4,10 +4,12 @@ class RecipeSerializer < ActiveModel::Serializer
 
   has_many :ingredients, serializer: IngredientSerializer
   has_many :steps, serializer: StepSerializer
+  has_one  :image
 
   def links
     resource_links = {}
     resource_links[:self]       = api_v1_recipe_url(object)
+    resource_links[:image_url]  = rails_blob_path(object.image) if object.image_attachment
     resource_links
   end
 end
