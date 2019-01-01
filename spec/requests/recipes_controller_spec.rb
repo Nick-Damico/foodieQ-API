@@ -9,6 +9,7 @@ RSpec.describe "RecipesController", :type => :request do
     @user.recipes.push(@recipe, @recipe_2)
     @user.save
   end
+
   describe 'GET :index' do
     it 'returns a status of 200 of success' do
       get api_v1_recipes_url
