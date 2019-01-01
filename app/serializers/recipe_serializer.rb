@@ -4,7 +4,6 @@ class RecipeSerializer < ActiveModel::Serializer
 
   has_many :ingredients, serializer: IngredientSerializer
   has_many :steps, serializer: StepSerializer
-  has_one  :image
 
   def links
     resource_links = {}
