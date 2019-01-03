@@ -3,10 +3,14 @@ class Api::V1::AuthenticationController < ApiController
 
   def create
     user = User.find_by(email: params[:user][:email])
-    if user.valid_password? params[:user][:password]
-      render json: { token: JsonWebToken.encode(sub: user.id), user: {id: user.id, email: user.email }}
+    if user
+      if user.valid_password? params[:user][:password]
+        render json: { token: JsonWebToken.encode(sub: user.id), user: {id: user.id, email: user.email }}
+      else
+        render json: { errors: ['Invalid email or password'] }
+      end
     else
-      render json: { errors: ['Invalid email or password'] }
+      render json: {errors: ["Email doesn't exist"]}, status: :unprocessable_entity
     end
   end
 
