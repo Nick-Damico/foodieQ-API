@@ -50,4 +50,13 @@ RSpec.describe 'AuthenticationRequests', type: :request do
       expect(parse_response['message']).to eq('You have successfully logged out.')
     end
   end
+
+  describe 'Google Auth' do
+    it 'logs a Google User in' do
+      expect{
+        post api_v1_auth_google_path,
+          :params => {user: {email: 'tim@gmail.com'}}
+      }.to change(User, :count).by(1)
+    end
+  end
 end
