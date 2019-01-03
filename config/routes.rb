@@ -4,7 +4,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      post :auth, to: "authentication#create"
+      post 'auth', to: "authentication#create"
+      post 'auth/google', to: "authentication#google"
       post '/signup' => 'users#create'
       post '/login', to: 'authentication#create'
       delete '/logout', to: 'authentication#destroy'
