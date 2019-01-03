@@ -11,10 +11,10 @@ class Api::V1::AuthenticationController < ApiController
   end
 
   def google
-    u = User.find_or_create_by(user_params)
-    u.save(validate: false) unless u
-    
-    render json: { token: JsonWebToken.encode(sub: user.id), user: {id: user.id}}, status: :ok
+    user = User.find_or_create_by(user_params)
+    user.save(validate: false) unless user.persisted?
+
+    render json: { token: JsonWebToken.encode(sub: user.id), user: {id: user.id, email: user.email}}, status: :ok
   end
 
   def destroy
