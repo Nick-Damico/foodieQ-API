@@ -18,13 +18,13 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
-    if @user.save
+    user = User.new(user_params)
+    if user.save
 
-      token = JsonWebToken.encode(sub: @user.id, email: @user.email)
-      render json: { token: token }, status: :created
+      token = JsonWebToken.encode(sub: user.id, email: user.email)
+      render json: { token: token, user: {id: user.id, email: user.email} }, status: :created
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: user.errors, status: :unprocessable_entity
     end
   end
 
