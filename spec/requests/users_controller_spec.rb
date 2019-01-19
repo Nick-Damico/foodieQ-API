@@ -133,7 +133,7 @@ RSpec.describe 'UsersController', type: :request do
         token = login_user(@user)['token']
         patch api_v1_user_path(@user),
               params: { user: { email: 'invalid.com', password: 'validTest' } }
-
+  
         expect(response).to_not be_successful
       end
 
