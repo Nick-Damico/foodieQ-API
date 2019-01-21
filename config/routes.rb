@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       post 'auth/google', to: "authentication#google"
       post '/signup' => 'users#create'
       post '/login', to: 'authentication#create'
+      post '/jwt-login', to: 'authentication#jwt_login'
       delete '/logout', to: 'authentication#destroy'
       resources :recipes
       resources :users do
