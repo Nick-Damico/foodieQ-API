@@ -59,4 +59,19 @@ RSpec.describe 'AuthenticationRequests', type: :request do
       }.to change(User, :count).by(1)
     end
   end
+
+  describe 'JWT login' do
+    context 'with valid Token' do
+      it 'authenticates and logs User in' do
+        @user = create(:user_1)
+        token = login_user(@user)["token"]
+        post api_v1_jwt_login_path, :headers => set_auth_bearer_token(token)
+
+        user_email = parse_response["user"]["email"]
+        
+        expect(user_email).to eq(@user.email)
+        expect(response).to have_http_status(200)
+      end
+    end
+  end
 end
