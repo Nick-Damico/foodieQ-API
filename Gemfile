@@ -14,6 +14,7 @@ gem 'devise', '~> 4.5'
 gem 'jwt', '~> 2.1'
 gem 'active_model_serializers', '~> 0.10.8'
 gem 'pagy', '~> 1.2', '>= 1.2.1'
+gem "aws-sdk-s3", require: false
 # gem 'mini_magick', '~> 4.9', '>= 4.9.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # Use ActiveModel has_secure_password
