@@ -44,7 +44,7 @@ class Api::V1::RecipesController < ApplicationController
     # Nested form submission was resulting in TypeError (no implicit conversion of Symbol into Integer):
     # Solution is to rewrite the params nested *_attributes to the correct format.
     params.require(:recipe).permit(:id, :title, :description, :image, :user_id,
-                                   ingredients_attributes: %i[id name])
+                                   ingredients_attributes: %i[id name], steps_attributes: %i[description])
   end
 
   def set_recipe
