@@ -1,5 +1,5 @@
 class Api::V1::RecipesController < ApplicationController
-  # before_action :authenticate_user!, only: %i[create update destroy]
+  before_action :authenticate_user!, only: %i[create update destroy]
   before_action :set_recipe, only: %i[show update destroy]
   before_action :correct_user, only: %i[update destroy]
   before_action :recipe_owner, only: %i[update destroy]
