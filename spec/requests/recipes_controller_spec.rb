@@ -100,7 +100,7 @@ RSpec.describe "RecipesController", :type => :request do
 
       it 'updates associated ingredients with nested params' do
         put api_v1_recipe_path(@recipe),
-          :params   => {recipe: {ingredients_attributes: {name: '10 oz mushrooms'}}},
+          :params   => {recipe: {ingredients_attributes: [{name: '10 oz mushrooms'},{name: '1Cup of Rice'}]}},
           :headers  => login_user_set_header(@user)
 
         expect(response.status).to eq(200)

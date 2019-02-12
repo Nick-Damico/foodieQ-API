@@ -1,5 +1,5 @@
 class Api::V1::RecipesController < ApplicationController
-  before_action :authenticate_user!, only: %i[create update destroy]
+  # before_action :authenticate_user!, only: %i[create update destroy]
   before_action :set_recipe, only: %i[show update destroy]
   before_action :correct_user, only: %i[update destroy]
   before_action :recipe_owner, only: %i[update destroy]
@@ -43,9 +43,6 @@ class Api::V1::RecipesController < ApplicationController
   def recipe_params
     # Nested form submission was resulting in TypeError (no implicit conversion of Symbol into Integer):
     # Solution is to rewrite the params nested *_attributes to the correct format.
-    if params[:recipe][:ingredients_attributes].present?
-      params[:recipe][:ingredients_attributes] = [{ name: params[:recipe][:ingredients_attributes][:name] }]
-    end
     params.require(:recipe).permit(:id, :title, :description, :image, :user_id,
                                    ingredients_attributes: %i[id name])
   end
