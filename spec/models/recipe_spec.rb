@@ -102,6 +102,12 @@ RSpec.describe Recipe, type: :model do
     end
   end
 
+  describe 'published' do
+    it 'defaults to a value of false' do
+      expect(@recipe.published).to eq(false)
+    end
+  end
+
   describe 'Callback #format_description_title' do
     it 'removes leading/trailing whitepace and capitalizes first letter of title and description' do
       @recipe.title = ' orange cake '
