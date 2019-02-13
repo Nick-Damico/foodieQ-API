@@ -16,6 +16,8 @@ class Recipe < ApplicationRecord
   validate :correct_image_type
   validate :correct_image_size
 
+  scope :published, -> { where(published: true) }
+
   private
 
     # Validates, Formats description before presisting to db.
